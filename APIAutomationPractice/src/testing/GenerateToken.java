@@ -24,14 +24,14 @@ public class GenerateToken {
 RestAssured.baseURI="https://qaapix.vodacom.co.za";
 		
 		String response1= given().log().all()
-				.auth().basic("5sGEDsva7gycMv4iII1GXo89TdFRSLYP", "MMQA4mKZ7AutA51z")
-				.header("Authorization", "Basic NXNHRURzdmE3Z3ljTXY0aUlJMUdYbzg5VGRGUlNMWVA6TU1RQTRtS1o3QXV0QTUxeg==")
+				.auth().basic("xx", "yy")
+				.header("Authorization", "Basic zz==")
 				.header("Content-Type", "application/x-www-form-urlencoded")
 				.contentType("application/x-www-form-urlencoded; charset=utf-8")
 				.formParam("grant_type", "client_credentials")
-				.when().post("/oauth-framework/generateaccesstoken")
+				.when().post("aa")
 				.then().assertThat().statusCode(200)
-				//.body("developer.email", equalTo("shrikant.devkamble@vcontractor.co.za"))
+				
 				.body("token_type", equalTo("BearerToken"))
 				.extract().response().asString();
 		 		System.out.println(response1);
