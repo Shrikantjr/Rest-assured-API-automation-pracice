@@ -20,11 +20,11 @@ public class basic {
 		
 		
 		//generate access token
-		RestAssured.baseURI="https://qaapix.vodacom.co.za";
+		RestAssured.baseURI="https://rahulshetty.com";
 		//SessionFilter session = new SessionFilter();
 		String tokenGeneration= given().log().all()
-				.auth().basic("5sGEDsva7gycMv4iII1GXo89TdFRSLYP", "MMQA4mKZ7AutA51z")
-				.header("Authorization", "Basic NXNHRURzdmE3Z3ljTXY0aUlJMUdYbzg5VGRGUlNMWVA6TU1RQTRtS1o3QXV0QTUxeg==")
+				.auth().basic("x", "y")
+				.header("Authorization", "Basic z==")
 				.header("Content-Type", "application/x-www-form-urlencoded")
 				.contentType("application/x-www-form-urlencoded; charset=utf-8")
 				.formParam("grant_type", "client_credentials")
@@ -50,58 +50,52 @@ public class basic {
 		 	//building request spec builder so , we do need to send again & again same given data
 		 	// and then passing the variable name to given("variable name")method
 		 	//so by doing this we making framework looks good, requestspecbuilder have to keep in utility file for common use
-		 RequestSpecification req =new RequestSpecBuilder().setBaseUri("https://qaapix.vodacom.co.za")
+		 RequestSpecification req =new RequestSpecBuilder().setBaseUri("https://rahulsheety.com")
 				.addHeader("Content-Type", "application/json")
-				.addHeader("X-Source-TransactionId", "123e4567-e89b-42d3-a456-556642440000").build();
+				.addHeader("X-Source-TransactionId", "1234").build();
 		 
 		 //response sepc builder, in this not adding the status code validation boz
 		 //1 api expects 200 & other 201 thats why not added
 		ResponseSpecification res = new ResponseSpecBuilder()
-		 .expectBody("ticketType", equalTo("Incident"))
-		 .expectBody("status", equalTo("New"))
-		 .expectBody("severity", equalTo("3 - Moderate"))
+		 .expectBody("a", equalTo("a"))
+		 .expectBody("b", equalTo("b"))
+		 .expectBody("c", equalTo("c"))
 		 .build();
 		 
-		String createTroubleTicketVB  = given().spec(req).log().all()
+		String aa  = given().spec(req).log().all()
 				.auth().oauth2(""+accessToken+"")
         // .filter(session) //this session will store the response & take it as valid session & pass it to the next api
-         .body(payload.createTroubleTicket())  //one way of sending static payload
-         .when().post("v1/VBfixed/troubleTicket")
+         .body(payload.aa())  //one way of sending static payload
+         .when().post("abc/bcd")
          .then().assertThat().statusCode(200).spec(res).extract().response().asString();
-		System.out.println("Created VB trouble ticket response " + createTroubleTicketVB);
+		System.out.println("hello " + aa);
 		
 		//parsing the Json response body using JosnPath class
-		JsonPath js = new JsonPath(createTroubleTicketVB); //creating object and passing the response as an argument coz it accept string arg
-		String createdId = js.getString("id"); //storing it a variable coz we are going to use this in next api call to pass the value
+		JsonPath js = new JsonPath(aa); //creating object and passing the response as an argument coz it accept string arg
+		String id = js.getString("id"); //storing it a variable coz we are going to use this in next api call to pass the value
 		
-		System.out.println("Created VB trouble ticket id: " + createdId);
+		System.out.println("id" + createdId);
 		
 		//update trouble ticket
 		String updateResponse = given().spec(req).log().all()
 				.auth().oauth2(""+accessToken+"")
 			
-        .body(payload.updateTroubleTicket())
+        .body(payload.bb())
       //  .filter(session) // called filter method and pass name of obejct, for session object
        // .filter(session)
-        .when().patch("v1/VBfixed/troubleTicket/"+createdId+"")// 1 way sending path param
+        .when().patch("aa"+idgenerated+"")// 1 way sending path param
         //another way is mention pathParam(" name ","value")
-        //then mentioned the same name in resource i.e. v1/VBfixed/troubleTicket/{name}
+        //then mentioned the same name in resource i.e. aa/{name}
         
         .then().assertThat().statusCode(200).spec(res)
         .extract().response().asString();
-		System.out.println("Updated VB trouble ticket response "  +updateResponse);
+		System.out.println("bb"  +bb);
 		
-		JsonPath js2 = new JsonPath(updateResponse);
+		JsonPath js2 = new JsonPath(bb);
         String updatedId = js2.getString("id");
-        System.out.println("Updated VB trouble ticket id: " + updatedId);
+        System.out.println("bb" + updatedId);
         
-		//push trouble ticket
-        
-        
-        
-       // given().log().all().auth().oauth2("9KSOsw7hiLem6EWpHi7UztHtF1mu").header("Content-Type","application/json")
-       // .header("X-Source-TransactionId", "123e4567-e89b-42d3-a456-556642440000");
-        
+	
         
         
         
